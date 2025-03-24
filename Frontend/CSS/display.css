@@ -1,0 +1,43 @@
+a{
+    border-radius: 4px;
+    border-width: 4px;
+    border-color: rgb(221, 255, 0);
+    border-style: solid;
+    width: 100px;
+    height: 100px;
+    display: inline;
+    font-size: 30px;
+    margin: 20px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.links{
+    border: 3px rgb(0, 229, 255) solid;
+    width: fit-content;
+    padding: 15px;
+}
+
+h5{
+    border-radius: 5px;
+    border-width: 5px;
+    border-color: rgb(255, 0, 81);
+    border-style: solid;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    font-size: 30px;
+    margin: 20px;
+    padding: 50px;
+}
+
+p{
+    border-radius: 5px;
+    border-width: 10px;
+    border-color: aqua;
+    border-style: solid;
+    width: 300px;
+    height: 300px;
+    display: block;
+    font-size: 30px;
+}

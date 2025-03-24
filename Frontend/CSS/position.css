@@ -1,0 +1,46 @@
+.parent{
+    background-color: aqua;
+    height: 600px;
+    width: 500px;
+    border: 3px #000000 solid;
+    margin: auto;
+    position: relative;
+}
+
+.child {
+    font-size: 30px;
+    background: linear-gradient(to right, rgb(255, 173, 173), rgb(184, 184, 255)); /* Gradient from red to blue */
+    width: fit-content;
+    text-align: center;
+    border: 2px red double;
+    margin: 5px;
+    position: absolute;
+    padding: 10px; /* Uncommented to make content visible properly */
+}
+
+
+.child1{
+    top:0;
+    left:0;
+}
+
+.child2{
+    top:0;
+    right:0;
+}
+
+.child3{
+    bottom:0;
+    left:0;
+}
+
+.child4{
+    right:0;
+    bottom:0;
+}
+
+.child5{
+    /* margin: 45% ; */
+    top: 45%;
+    left: 42%;
+}

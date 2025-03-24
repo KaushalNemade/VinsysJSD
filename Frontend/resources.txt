@@ -1,3 +1,9 @@
 backgroung color:
 https://www.shecodes.io/gradients
 
+
+To write multiple lines ta a time:-\
+
+blockname.number of times.classname{Text $(number++)}       //Syntax
+
+div*6.child{Child $}
