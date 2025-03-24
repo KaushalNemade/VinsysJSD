@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="">
+        <fieldset>
+            <legend>Demo Form</legend>
+            <label>Usename</label>
+            <input type="text" minlength="2" maxlength="25" placeholder="Enter your Name" value="My Name" readonly>
+            <!-- aria-readonly="false" -->
+            <br><br>
+
+            <label>Email</label>
+            <input type="email" placeholder="Enter your email" value="abc@gmail.com" disabled required>
+            <br><br>
+
+            <label>Password</label>
+            <input type="password" minlength="8" maxlength="15" placeholder="Enter your password" required>
+            <br><br>
+
+            <label>Mobile</label>
+            <input type="tel" min="1000000000" maxlength="10" placeholder="Enter your number">
+            <!-- also can use type = "number"-->
+            <br><br>
+
+            <label>Gender</label>
+            <input type="radio" name="gender" checked>Male
+            <input type="radio" name="gender">Female
+            <br><br>
+
+            <label>Languages</label>
+            <input type="checkbox">Hindi
+            <input type="checkbox">Marathi
+            <input type="checkbox">English
+            <input type="checkbox">Gujrati
+
+            <br><br>
+            <label for="feedback">Feedback</label>
+            <textarea id="feedback" name="feedback" cols="30" rows="5" placeholder="Enter your feedback here...">
+
+        </textarea>
+            <br><br>
+
+
+            <h4>Using Select</h4>
+            <label>Countries</label>
+            <select>
+                <option value="">
+                    India
+                </option>
+                <option value="">
+                    USA
+                </option>
+                <option value="">
+                    Australia
+                </option>
+                <option value="">
+                    England
+                </option>
+            </select>
+            <br><br>
+
+            <h4>Using Datalist</h4>
+
+            <label>Countries</label>
+            <input type="text" list="countries" id="country" name="countries">
+            <datalist id="countries">
+                <option value="Bharat">Bharat</option>
+                <option value="USA">USA</option>
+                <option value="Australia">Australia</option>
+                <option value="England">England</option>
+            </datalist>
+            <br><br>
+
+            <input type="submit" value="Submit">
+            <br><br>
+
+            <input type="reset" value="Clear">
+            <br><br>
+        </fieldset>
+
+    </form>
+</body>
+
+</html>

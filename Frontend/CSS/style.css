@@ -1,0 +1,10 @@
+h3,h2{
+    color:brown 
+    /* color:gold !important */
+}
+
+body {
+    color:rgb(230, 169, 14);
+    font-size: 25;
+    background: linear-gradient(106.5deg, rgba(255, 215, 185, 0.91) 23%, rgba(223, 159, 247, 0.8) 93%);
+}
