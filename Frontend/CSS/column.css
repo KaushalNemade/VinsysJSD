@@ -1,0 +1,23 @@
+p{
+    column-count: 3;
+    text-align: justify;
+    column-rule: 3px black solid;
+    column-rule-style: outset;
+    font-size: 20px;
+    border: 2px black solid;
+    padding: 5px;
+    border-radius: 10px;
+
+}
+
+p::first-letter{
+    font-size: 40px;
+    
+}
+h1{
+    /* margin-left: 45%; */
+    text-align:center;
+    text-decoration: skyblue underline;
+    text-decoration-style: dashed;
+    /* text-decoration-line: underline; */
+}

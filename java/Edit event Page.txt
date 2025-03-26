@@ -1,0 +1,321 @@
+Edit event Page
+
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+class EditEventPage extends StatefulWidget {
+  final Map<String, dynamic> event;
+  final int index;
+
+  const EditEventPage({super.key, required this.event, required this.index});
+
+  @override
+  _EditEventPageState createState() => _EditEventPageState();
+}
+
+class _EditEventPageState extends State<EditEventPage> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _organizedByController = TextEditingController();
+  final TextEditingController _registrationEndDateController =
+      TextEditingController();
+  final TextEditingController _registrationEndTimeController =
+      TextEditingController();
+
+  File? _selectedImage;
+  final ImagePicker _picker = ImagePicker();
+
+  late String initialTitle;
+  late String initialDescription;
+  late String initialDate;
+  late String initialLocation;
+  late String initialTime;
+  late String initialOrganizedBy;
+  late String initialRegistrationEndDate;
+  late String initialRegistrationEndTime;
+  late dynamic initialImage; // Can be File or String (path)
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.index == -1) {
+      // If index is -1, this is a new event, so clear the fields
+      _titleController.text = '';
+      _descriptionController.text = '';
+      _dateController.text = '';
+      _locationController.text = '';
+      _timeController.text = '';
+      _organizedByController.text = '';
+      _registrationEndDateController.text = '';
+      _registrationEndTimeController.text = '';
+      initialImage = null;
+    } else {
+      // If not -1, this is an edit action, so fill fields with event data
+      _titleController.text = widget.event['title'] ?? '';
+      _descriptionController.text = widget.event['description'] ?? '';
+      _dateController.text = widget.event['date'] ?? '';
+      _locationController.text = widget.event['location'] ?? '';
+      _timeController.text = widget.event['time'] ?? '';
+      _organizedByController.text = widget.event['organizedBy'] ?? '';
+      _registrationEndDateController.text =
+          widget.event['registrationEndDate'] ?? '';
+      _registrationEndTimeController.text =
+          widget.event['registrationEndTime'] ?? '';
+      initialImage = widget.event['image'];
+
+      // Store initial values for comparison
+      initialTitle = widget.event['title'] ?? '';
+      initialDescription = widget.event['description'] ?? '';
+      initialDate = widget.event['date'] ?? '';
+      initialLocation = widget.event['location'] ?? '';
+      initialTime = widget.event['time'] ?? '';
+      initialOrganizedBy = widget.event['organizedBy'] ?? '';
+      initialRegistrationEndDate = widget.event['registrationEndDate'] ?? '';
+      initialRegistrationEndTime = widget.event['registrationEndTime'] ?? '';
+
+      // If the image is a string (path), convert it to a File
+      if (initialImage is String) {
+        initialImage = File(initialImage);
+      }
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        _registrationEndDateController.text =
+            "${pickedDate.toLocal()}".split(' ')[0];
+      });
+    }
+  }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (pickedTime != null) {
+      setState(() {
+        _registrationEndTimeController.text = pickedTime.format(context);
+      });
+    }
+  }
+
+  void _saveEvent() {
+    // Only update values if they are different from the initial values
+    if (_titleController.text.isEmpty ||
+        _descriptionController.text.isEmpty ||
+        _dateController.text.isEmpty ||
+        _locationController.text.isEmpty ||
+        _timeController.text.isEmpty ||
+        _organizedByController.text.isEmpty ||
+        _registrationEndDateController.text.isEmpty ||
+        _registrationEndTimeController.text.isEmpty) return;
+
+    setState(() {
+      widget.event['title'] = _titleController.text != initialTitle
+          ? _titleController.text
+          : initialTitle;
+      widget.event['description'] =
+          _descriptionController.text != initialDescription
+              ? _descriptionController.text
+              : initialDescription;
+      widget.event['date'] = _dateController.text != initialDate
+          ? _dateController.text
+          : initialDate;
+      widget.event['location'] = _locationController.text != initialLocation
+          ? _locationController.text
+          : initialLocation;
+      widget.event['time'] = _timeController.text != initialTime
+          ? _timeController.text
+          : initialTime;
+      widget.event['organizedBy'] =
+          _organizedByController.text != initialOrganizedBy
+              ? _organizedByController.text
+              : initialOrganizedBy;
+      widget.event['registrationEndDate'] =
+          _registrationEndDateController.text != initialRegistrationEndDate
+              ? _registrationEndDateController.text
+              : initialRegistrationEndDate;
+      widget.event['registrationEndTime'] =
+          _registrationEndTimeController.text != initialRegistrationEndTime
+              ? _registrationEndTimeController.text
+              : initialRegistrationEndTime;
+
+      // Only update the image if it's been changed
+      widget.event['image'] = _selectedImage ?? initialImage;
+    });
+
+    Navigator.pop(context, widget.event); // Return updated event
+  }
+
+  bool isRegistrationClosed() {
+    final registrationEndDate =
+        "${_registrationEndDateController.text} ${_registrationEndTimeController.text}";
+    final registrationEndDateTime = DateTime.tryParse(registrationEndDate);
+
+    if (registrationEndDateTime == null) return false;
+    return DateTime.now().isAfter(registrationEndDateTime);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Edit Event"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            // Image Preview & Selection
+            Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: Container(
+                width: double.infinity,
+                height: isPortrait
+                    ? 200
+                    : 150, // Adjust height based on orientation
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  image: _selectedImage != null
+                      ? DecorationImage(
+                          image: FileImage(_selectedImage!), fit: BoxFit.cover)
+                      : (initialImage != null
+                          ? DecorationImage(
+                              image: FileImage(initialImage), fit: BoxFit.cover)
+                          : null),
+                ),
+                child: _selectedImage == null && initialImage == null
+                    ? const Center(
+                        child: Icon(Icons.image, size: 50, color: Colors.grey))
+                    : null,
+              ),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton.icon(
+              onPressed: _pickImage,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue, // Blue button
+                foregroundColor: Colors.white,
+              ),
+              icon: const Icon(Icons.image),
+              label: const Text("Change Image"),
+            ),
+            const SizedBox(height: 20),
+
+            // Event Fields
+            _buildTextField(_titleController, "Event Title", Icons.title),
+            _buildTextField(
+                _descriptionController, "Event Description", Icons.description),
+            _buildDateTimePicker(_dateController,
+                "Event Date", _selectDate),
+            _buildTextField(
+                _dateController, "Event Date", Icons.calendar_today),
+            _buildTextField(_locationController, "Location", Icons.location_on),
+            _buildTextField(_timeController, "Time", Icons.access_time),
+            _buildTextField(
+                _organizedByController, "Organized By", Icons.person),
+
+            const SizedBox(height: 20),
+
+            // Registration Deadline Date and Time
+            _buildDateTimePicker(_registrationEndDateController,
+                "Registration End Date", _selectDate),
+            _buildDateTimePicker(_registrationEndTimeController,
+                "Registration End Time", _selectTime),
+
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: isRegistrationClosed()
+                  ? null
+                  : _saveEvent, // Disable save button if registration is closed
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue, // Blue button
+                foregroundColor: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 50),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              child: const Text("Save", style: TextStyle(fontSize: 18)),
+            ),
+            if (isRegistrationClosed())
+              const Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Text("Registration is closed for this event",
+                    style: TextStyle(color: Colors.red)),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(
+      TextEditingController controller, String label, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(icon),
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDateTimePicker(
+      TextEditingController controller, String label, Function onTap) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        readOnly: true,
+        decoration: InputDecoration(
+          labelText: label,
+          suffixIcon: IconButton(
+            icon: const Icon(Icons.calendar_today),
+            onPressed: () => onTap(context),
+          ),
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+        ),
+      ),
+    );
+  }
+}

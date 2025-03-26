@@ -1,0 +1,26 @@
+.parent{
+    /* background: linear-gradient(to right, rgb(200, 241, 255), rgb(255, 254, 225)); Gradient from red to blue */
+    background: radial-gradient(circle at top left, rgb(255, 195, 195), rgb(255, 255, 179), rgb(183, 183, 255));
+
+    height: 600px;
+    width: 700px;
+    border: 3px #000000 solid;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;            /* Horizontally */
+    align-items: center;                /* Vertically */
+     /* position: relative; */
+}
+
+.child {
+    font-size: 30px;
+    background: linear-gradient(to right, rgb(255, 173, 173), rgb(184, 184, 255)); /*Gradient from red to blue*/
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    border: 5px rgb(140, 166, 118) solid;
+    margin: 5px;
+    /* position: absolute; */
+    padding: 10px; /* Uncommented to make content visible properly */
+}
