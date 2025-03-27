@@ -4,7 +4,7 @@ interface Sound{
     int b = 20;
 
     default void sound() {
-        System.out.println("Woo..");
+        System.out.println("Default Sound");
     }
 
     static void ref(){
