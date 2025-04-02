@@ -1,0 +1,18 @@
+img{
+  border-radius: 5px;
+  
+  align-items: center;
+
+}
+.clsImg{
+  border-radius: 10px;
+
+}
+.videocls{
+ background-color: aquamarine;
+ border: 5px solid purple;
+ border-radius: 10px;
+}
+/* body{
+  background-color: black;
+} */

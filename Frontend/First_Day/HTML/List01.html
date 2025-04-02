@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State and City List</title>
+    <style>
+        ol { counter-reset: section; }
+        li::before { content: counters(section, ".") " "; counter-increment: section; }
+    </style>
+</head>
+<body>
+    <ol>
+        <li>MH
+            <ol>
+                <li>Mumbai</li>
+                <li>Nagpur</li>
+                <li>Pune</li>
+            </ol>
+        </li>
+        <li>KA
+            <ol>
+                <li>Bangalore</li>
+                <li>Mysore</li>
+            </ol>
+        </li>
+        <li>UP
+            <ol>
+                <li>Lucknow</li>
+                <li>Kanpur</li>
+            </ol>
+        </li>
+    </ol>
+</body>
+</html>
